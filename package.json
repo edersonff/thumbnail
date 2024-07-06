@@ -1,0 +1,20 @@
+{
+  "name": "thumbnail",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "g4f": "^1.4.6",
+    "skia-canvas": "^1.0.1"
+  }
+}
