@@ -1,4 +1,4 @@
-#!venv/bin/python
+#!/home/edersonff/Documentos/thumbnail/venv/bin/python
 import easyocr
 import sys
 import json

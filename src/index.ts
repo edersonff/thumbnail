@@ -10,8 +10,10 @@ import {
 } from "skia-canvas";
 import { cover } from "./fit";
 import { blendColors, rgbToHex } from "./colors";
+import fs from "fs";
+import path from "path";
 
-const [imageFile] = process.argv.slice(2);
+const [imageFile, outFile = "output.jpg"] = process.argv.slice(2);
 
 const PROMPT = `
     Instruções:
@@ -46,6 +48,7 @@ const PROMPT = `
     - "dealer": "negociante"
     - "boss": "chefão"
     - "hope": "esperança"
+    - "trapped": "preso"
 
     Texto anterior(para contexto):
     {lastText}
@@ -88,9 +91,13 @@ const canvas = new Canvas(1280, 720);
 const ctx = canvas.getContext("2d");
 
 async function main() {
-  const response = child.spawnSync("./index.py " + imageFile, {
-    shell: true,
-  });
+  const response = child.spawnSync(
+    "../index.py " + path.resolve(process.cwd(), imageFile),
+    {
+      shell: true,
+      cwd: __dirname,
+    }
+  );
 
   const json: Item[] = JSON.parse(response.stdout.toString()).filter(
     (item: Item) => {
@@ -138,7 +145,13 @@ async function main() {
     i++;
   }
 
-  await canvas.saveAs("output.png");
+  const folder = outFile.split("/").slice(0, -1).join("/");
+
+  if (!fs.existsSync(folder)) {
+    fs.mkdirSync(folder, { recursive: true });
+  }
+
+  await canvas.saveAs(outFile);
 }
 
 async function createCanva() {
@@ -147,7 +160,7 @@ async function createCanva() {
 
   const ctx = canvas.getContext("2d");
 
-  FontLibrary.use("zumme", ["Zuume-Bold.woff"]);
+  FontLibrary.use("zumme", [path.resolve(__dirname, "../Zuume-Bold.woff")]);
 
   const image = await loadImage(imageFile);
 
@@ -165,21 +178,6 @@ async function createCanva() {
   );
 
   ctx.drawImage(image as any, offsetX, offsetY, width, height);
-
-  //   ctx.font = "bold 150px zumme";
-  //   ctx.shadowColor = "black";
-  //   ctx.shadowBlur = 0;
-  //   ctx.lineWidth = 20;
-  //   ctx.strokeText("Level 1", 110, 650);
-
-  //   ctx.strokeText("Level 1", 100, 640);
-
-  //   ctx.shadowBlur = 0;
-  //   ctx.fillStyle = "yellow";
-  //   ctx.fillText("Level 1", 100, 640);
-
-  // applyBlur(ctx, 100, 540, 420, 150, 10);
-  // drawText(ctx, "Level 1", 100, 640, 200, "yellow", "black");
 }
 
 function drawText(
