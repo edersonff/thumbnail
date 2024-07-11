@@ -1,4 +1,4 @@
-#!/home/edersonff/.venvs/MyEnv/bin/python
+#!venv/bin/python
 import easyocr
 import sys
 import json
@@ -12,7 +12,7 @@ if len(sys.argv) != 2:
 image = sys.argv[1]
 
 
-reader = easyocr.Reader(['pt', 'en'], gpu=True)
+reader = easyocr.Reader(['pt', 'en'], verbose=False)
 
 results = reader.readtext(image)
 

@@ -1,9 +1,11 @@
 {
   "name": "thumbnail",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "start": "ts-node index.ts",
+    "dev": "ts-node index.ts",
+    "start": "node build/index.js",
+    "build": "tsc && chmod +x build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,5 +18,8 @@
     "canvas": "^2.11.2",
     "g4f": "^1.4.6",
     "skia-canvas": "^1.0.1"
+  },
+  "bin": {
+    "thumbnail": "build/index.js"
   }
 }

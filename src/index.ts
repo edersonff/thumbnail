@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import child from "child_process";
 import { G4F } from "g4f";
 import {
